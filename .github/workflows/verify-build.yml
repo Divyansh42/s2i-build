@@ -12,7 +12,7 @@ on:
 
 env:
   TEST_REPO: helloworld
-  IMAGE_NAME: hello-world
+  IMAGE_NAME: abc/hello-world
   TAGS: latest v1
 
 jobs:
@@ -52,6 +52,17 @@ jobs:
           echo "Image: ${{ steps.build_image.outputs.image }}"
           echo "Tags: ${{ steps.build_image.outputs.tags }}"
 
+      - run: docker images
+
       # Run image to verify the build
       - name: Run image
         run: docker run ${{ env.IMAGE_NAME}}:latest
+
+      - name: push
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build_image.outputs.image }}
+          tags: ${{ steps.build_image.outputs.tags }}
+          registry: quay.io
+          username: diagrawa
+          password: ${{ secrets.REGISTRY_PASSWORD }}
