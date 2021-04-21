@@ -59,7 +59,7 @@ jobs:
         run: docker run ${{ env.IMAGE_NAME}}:latest
 
       - name: push
-        uses: redhat-actions/push-to-registry@v2
+        uses: divyansh42/push-to-registry@demo
         with:
           image: ${{ steps.build_image.outputs.image }}
           tags: ${{ steps.build_image.outputs.tags }}
